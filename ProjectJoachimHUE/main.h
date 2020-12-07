@@ -10,8 +10,8 @@
 #define MAIN_H_
 
 void Init(void);
-void ColorSetter(void);
-void ColorValidater(char *p_fullcolor);
+void ColorInput(void);
+void ColorValidator(char *p_fullcolor);
 int ValueValidator(char *p_color);
 
 #endif /* MAIN_H_ */
