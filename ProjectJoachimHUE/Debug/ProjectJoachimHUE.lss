@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  000003a0  00000000  00000000  00006a84  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000075e  00000000  00000000  00006e24  2**0
+  9 .debug_str    0000075d  00000000  00000000  00006e24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000744  00000000  00000000  00007582  2**0
+ 10 .debug_loc    00000744  00000000  00000000  00007581  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000f8  00000000  00000000  00007cc6  2**0
+ 11 .debug_ranges 000000f8  00000000  00000000  00007cc5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -349,8 +349,8 @@ void ColumnScan()
      248:	89 83       	std	Y+1, r24	; 0x01
 	
 	switch (columnCounter)
-     24a:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
-     24e:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__data_start+0x1>
+     24a:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__DATA_REGION_ORIGIN__>
+     24e:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
      252:	82 30       	cpi	r24, 0x02	; 2
      254:	91 05       	cpc	r25, r1
      256:	a9 f0       	breq	.+42     	; 0x282 <ColumnScan+0x4e>
@@ -421,22 +421,22 @@ void ColumnScan()
      2b6:	00 00       	nop
 	}
 	columnCounter++;
-     2b8:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
-     2bc:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__data_start+0x1>
+     2b8:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__DATA_REGION_ORIGIN__>
+     2bc:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
      2c0:	01 96       	adiw	r24, 0x01	; 1
-     2c2:	90 93 01 02 	sts	0x0201, r25	; 0x800201 <__data_start+0x1>
-     2c6:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__data_start>
+     2c2:	90 93 01 02 	sts	0x0201, r25	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
+     2c6:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__DATA_REGION_ORIGIN__>
 	if (columnCounter > 4)
-     2ca:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
-     2ce:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__data_start+0x1>
+     2ca:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__DATA_REGION_ORIGIN__>
+     2ce:	90 91 01 02 	lds	r25, 0x0201	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
      2d2:	05 97       	sbiw	r24, 0x05	; 5
      2d4:	34 f0       	brlt	.+12     	; 0x2e2 <ColumnScan+0xae>
 	{
 		columnCounter = 1;					// Reset back to first Column
      2d6:	81 e0       	ldi	r24, 0x01	; 1
      2d8:	90 e0       	ldi	r25, 0x00	; 0
-     2da:	90 93 01 02 	sts	0x0201, r25	; 0x800201 <__data_start+0x1>
-     2de:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__data_start>
+     2da:	90 93 01 02 	sts	0x0201, r25	; 0x800201 <__DATA_REGION_ORIGIN__+0x1>
+     2de:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__DATA_REGION_ORIGIN__>
 	}
 }
      2e2:	00 00       	nop
@@ -4548,8 +4548,8 @@ int main(void)
 	
 	while (1)
 	{
-		ColorSetter();
-    2020:	18 d0       	rcall	.+48     	; 0x2052 <ColorSetter>
+		ColorInput();
+    2020:	18 d0       	rcall	.+48     	; 0x2052 <ColorInput>
     2022:	fe cf       	rjmp	.-4      	; 0x2020 <main+0xa>
 
 00002024 <Init>:
@@ -4586,9 +4586,9 @@ void Init(void){
     204e:	cf 91       	pop	r28
     2050:	08 95       	ret
 
-00002052 <ColorSetter>:
+00002052 <ColorInput>:
 
-void ColorSetter(void){
+void ColorInput(void){
     2052:	0f 93       	push	r16
     2054:	1f 93       	push	r17
     2056:	cf 93       	push	r28
@@ -4601,7 +4601,7 @@ void ColorSetter(void){
     2064:	de bf       	out	0x3e, r29	; 62
     2066:	0f be       	out	0x3f, r0	; 63
     2068:	cd bf       	out	0x3d, r28	; 61
-	char colorcnt; // counter for at komme igennem farverne
+	char colorcnt;
 	unsigned char color[9] = {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
     206a:	89 e0       	ldi	r24, 0x09	; 9
     206c:	e4 e3       	ldi	r30, 0x34	; 52
@@ -4611,7 +4611,7 @@ void ColorSetter(void){
     2074:	01 90       	ld	r0, Z+
     2076:	0d 92       	st	X+, r0
     2078:	8a 95       	dec	r24
-    207a:	e1 f7       	brne	.-8      	; 0x2074 <ColorSetter+0x22>
+    207a:	e1 f7       	brne	.-8      	; 0x2074 <ColorInput+0x22>
 	
 	for (colorcnt = 0; colorcnt < 9; colorcnt++)
     207c:	19 82       	std	Y+1, r1	; 0x01
@@ -4623,14 +4623,14 @@ void ColorSetter(void){
     2084:	90 e0       	ldi	r25, 0x00	; 0
     2086:	83 30       	cpi	r24, 0x03	; 3
     2088:	91 05       	cpc	r25, r1
-    208a:	69 f0       	breq	.+26     	; 0x20a6 <ColorSetter+0x54>
+    208a:	69 f0       	breq	.+26     	; 0x20a6 <ColorInput+0x54>
     208c:	86 30       	cpi	r24, 0x06	; 6
     208e:	91 05       	cpc	r25, r1
-    2090:	91 f0       	breq	.+36     	; 0x20b6 <ColorSetter+0x64>
+    2090:	91 f0       	breq	.+36     	; 0x20b6 <ColorInput+0x64>
     2092:	89 2b       	or	r24, r25
-    2094:	c1 f4       	brne	.+48     	; 0x20c6 <ColorSetter+0x74>
+    2094:	c1 f4       	brne	.+48     	; 0x20c6 <ColorInput+0x74>
 		{
-			case 0: //Rød
+			case 0:			//Rød
 			lcd_clrscr();
     2096:	60 d8       	rcall	.-3904   	; 0x1158 <lcd_clrscr>
 			lcd_puts("Color:\nRed: ");
@@ -4642,9 +4642,9 @@ void ColorSetter(void){
     20a0:	8d e0       	ldi	r24, 0x0D	; 13
 			break;
     20a2:	42 d8       	rcall	.-3964   	; 0x1128 <lcd_gotoxy>
-			case 3: //Grøn
+			case 3:			//Grøn
 			lcd_clrscr();
-    20a4:	21 c0       	rjmp	.+66     	; 0x20e8 <ColorSetter+0x96>
+    20a4:	21 c0       	rjmp	.+66     	; 0x20e8 <ColorInput+0x96>
     20a6:	58 d8       	rcall	.-3920   	; 0x1158 <lcd_clrscr>
 			lcd_puts("Color:\nGreen: ");
     20a8:	87 e1       	ldi	r24, 0x17	; 23
@@ -4655,9 +4655,9 @@ void ColorSetter(void){
     20b0:	8d e0       	ldi	r24, 0x0D	; 13
 			break;
     20b2:	3a d8       	rcall	.-3980   	; 0x1128 <lcd_gotoxy>
-			case 6: //Blå
+			case 6:			//Blå
 			lcd_clrscr();
-    20b4:	19 c0       	rjmp	.+50     	; 0x20e8 <ColorSetter+0x96>
+    20b4:	19 c0       	rjmp	.+50     	; 0x20e8 <ColorInput+0x96>
 			lcd_puts("Color:\nBlue: ");
     20b6:	50 d8       	rcall	.-3936   	; 0x1158 <lcd_clrscr>
     20b8:	86 e2       	ldi	r24, 0x26	; 38
@@ -4667,7 +4667,7 @@ void ColorSetter(void){
     20be:	61 e0       	ldi	r22, 0x01	; 1
     20c0:	8d e0       	ldi	r24, 0x0D	; 13
     20c2:	32 d8       	rcall	.-3996   	; 0x1128 <lcd_gotoxy>
-    20c4:	11 c0       	rjmp	.+34     	; 0x20e8 <ColorSetter+0x96>
+    20c4:	11 c0       	rjmp	.+34     	; 0x20e8 <ColorInput+0x96>
 			break;
     20c6:	29 81       	ldd	r18, Y+1	; 0x01
 			default:
@@ -4689,12 +4689,12 @@ void ColorSetter(void){
     20e4:	21 d8       	rcall	.-4030   	; 0x1128 <lcd_gotoxy>
     20e6:	00 00       	nop
 			break;
-    20e8:	7a c0       	rjmp	.+244    	; 0x21de <ColorSetter+0x18c>
+    20e8:	7a c0       	rjmp	.+244    	; 0x21de <ColorInput+0x18c>
 		}
 		while (color[colorcnt] == '.' ) //Keypad input
     20ea:	80 e0       	ldi	r24, 0x00	; 0
     20ec:	90 e0       	ldi	r25, 0x00	; 0
-    20ee:	a8 ec       	ldi	r26, 0xC8	; 200
+    20ee:	a0 e7       	ldi	r26, 0x70	; 112
     20f0:	b2 e4       	ldi	r27, 0x42	; 66
     20f2:	8a 83       	std	Y+2, r24	; 0x02
     20f4:	9b 83       	std	Y+3, r25	; 0x03
@@ -4732,13 +4732,13 @@ void ColorSetter(void){
     2126:	99 85       	ldd	r25, Y+9	; 0x09
     2128:	a5 d1       	rcall	.+842    	; 0x2474 <__cmpsf2>
     212a:	88 23       	and	r24, r24
-    212c:	2c f4       	brge	.+10     	; 0x2138 <ColorSetter+0xe6>
+    212c:	2c f4       	brge	.+10     	; 0x2138 <ColorInput+0xe6>
     212e:	81 e0       	ldi	r24, 0x01	; 1
 		__ticks = 1;
     2130:	90 e0       	ldi	r25, 0x00	; 0
     2132:	9b 87       	std	Y+11, r25	; 0x0b
     2134:	8a 87       	std	Y+10, r24	; 0x0a
-    2136:	3b c0       	rjmp	.+118    	; 0x21ae <ColorSetter+0x15c>
+    2136:	3b c0       	rjmp	.+118    	; 0x21ae <ColorInput+0x15c>
     2138:	20 e0       	ldi	r18, 0x00	; 0
 	else if (__tmp > 65535)
     213a:	3f ef       	ldi	r19, 0xFF	; 255
@@ -4750,7 +4750,7 @@ void ColorSetter(void){
     2146:	99 85       	ldd	r25, Y+9	; 0x09
     2148:	a2 d2       	rcall	.+1348   	; 0x268e <__gesf2>
     214a:	18 16       	cp	r1, r24
-    214c:	3c f5       	brge	.+78     	; 0x219c <ColorSetter+0x14a>
+    214c:	3c f5       	brge	.+78     	; 0x219c <ColorInput+0x14a>
     214e:	20 e0       	ldi	r18, 0x00	; 0
 	{
 		//	__ticks = requested delay in 1/10 ms
@@ -4772,7 +4772,7 @@ void ColorSetter(void){
     216c:	cb 01       	movw	r24, r22
     216e:	9b 87       	std	Y+11, r25	; 0x0b
     2170:	8a 87       	std	Y+10, r24	; 0x0a
-    2172:	0f c0       	rjmp	.+30     	; 0x2192 <ColorSetter+0x140>
+    2172:	0f c0       	rjmp	.+30     	; 0x2192 <ColorInput+0x140>
     2174:	80 e9       	ldi	r24, 0x90	; 144
     2176:	91 e0       	ldi	r25, 0x01	; 1
     2178:	9d 87       	std	Y+13, r25	; 0x0d
@@ -4786,7 +4786,7 @@ _delay_loop_2(uint16_t __count)
 	__asm__ volatile (
     217e:	9d 85       	ldd	r25, Y+13	; 0x0d
     2180:	01 97       	sbiw	r24, 0x01	; 1
-    2182:	f1 f7       	brne	.-4      	; 0x2180 <ColorSetter+0x12e>
+    2182:	f1 f7       	brne	.-4      	; 0x2180 <ColorInput+0x12e>
     2184:	9d 87       	std	Y+13, r25	; 0x0d
     2186:	8c 87       	std	Y+12, r24	; 0x0c
     2188:	8a 85       	ldd	r24, Y+10	; 0x0a
@@ -4808,8 +4808,8 @@ _delay_loop_2(uint16_t __count)
 		while(__ticks)
     2194:	9b 85       	ldd	r25, Y+11	; 0x0b
     2196:	89 2b       	or	r24, r25
-    2198:	69 f7       	brne	.-38     	; 0x2174 <ColorSetter+0x122>
-    219a:	13 c0       	rjmp	.+38     	; 0x21c2 <ColorSetter+0x170>
+    2198:	69 f7       	brne	.-38     	; 0x2174 <ColorInput+0x122>
+    219a:	13 c0       	rjmp	.+38     	; 0x21c2 <ColorInput+0x170>
 			__ticks --;
 		}
 		return;
@@ -4832,12 +4832,12 @@ _delay_loop_2(uint16_t __count)
     21b6:	8e 85       	ldd	r24, Y+14	; 0x0e
     21b8:	9f 85       	ldd	r25, Y+15	; 0x0f
     21ba:	01 97       	sbiw	r24, 0x01	; 1
-    21bc:	f1 f7       	brne	.-4      	; 0x21ba <ColorSetter+0x168>
+    21bc:	f1 f7       	brne	.-4      	; 0x21ba <ColorInput+0x168>
     21be:	9f 87       	std	Y+15, r25	; 0x0f
     21c0:	8e 87       	std	Y+14, r24	; 0x0e
     21c2:	0e 94 1a 01 	call	0x234	; 0x234 <ColumnScan>
 		{
-			_delay_ms(100);
+			_delay_ms(60);
 			ColumnScan();
     21c6:	89 81       	ldd	r24, Y+1	; 0x01
 			color[colorcnt] = ReadRows();
@@ -4868,11 +4868,11 @@ _delay_loop_2(uint16_t __count)
     21ee:	fc 01       	movw	r30, r24
     21f0:	80 81       	ld	r24, Z
     21f2:	8e 32       	cpi	r24, 0x2E	; 46
-    21f4:	09 f4       	brne	.+2      	; 0x21f8 <ColorSetter+0x1a6>
-    21f6:	79 cf       	rjmp	.-270    	; 0x20ea <ColorSetter+0x98>
+    21f4:	09 f4       	brne	.+2      	; 0x21f8 <ColorInput+0x1a6>
+    21f6:	79 cf       	rjmp	.-270    	; 0x20ea <ColorInput+0x98>
     21f8:	89 81       	ldd	r24, Y+1	; 0x01
 		{
-			_delay_ms(100);
+			_delay_ms(60);
 			ColumnScan();
 			color[colorcnt] = ReadRows();
 		}
@@ -4889,8 +4889,8 @@ _delay_loop_2(uint16_t __count)
     220c:	0e 94 b6 08 	call	0x116c	; 0x116c <lcd_putc>
     2210:	89 81       	ldd	r24, Y+1	; 0x01
 
-void ColorSetter(void){
-	char colorcnt; // counter for at komme igennem farverne
+void ColorInput(void){
+	char colorcnt;
 	unsigned char color[9] = {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
 	
 	for (colorcnt = 0; colorcnt < 9; colorcnt++)
@@ -4899,16 +4899,16 @@ void ColorSetter(void){
     2216:	89 81       	ldd	r24, Y+1	; 0x01
     2218:	89 30       	cpi	r24, 0x09	; 9
     221a:	08 f4       	brcc	.+2      	; 0x221e <__stack+0x1f>
-    221c:	31 cf       	rjmp	.-414    	; 0x2080 <ColorSetter+0x2e>
+    221c:	31 cf       	rjmp	.-414    	; 0x2080 <ColorInput+0x2e>
 			ColumnScan();
 			color[colorcnt] = ReadRows();
 		}
 		lcd_putc(color[colorcnt]);
 	}
-	ColorValidater(color);
+	ColorValidator(color);
     221e:	ce 01       	movw	r24, r28
     2220:	40 96       	adiw	r24, 0x10	; 16
-    2222:	0c d0       	rcall	.+24     	; 0x223c <ColorValidater>
+    2222:	0c d0       	rcall	.+24     	; 0x223c <ColorValidator>
     2224:	00 00       	nop
 }
     2226:	68 96       	adiw	r28, 0x18	; 24
@@ -4923,9 +4923,9 @@ void ColorSetter(void){
     2238:	0f 91       	pop	r16
     223a:	08 95       	ret
 
-0000223c <ColorValidater>:
+0000223c <ColorValidator>:
     223c:	cf 93       	push	r28
-void ColorValidater(char *p_fullcolor){
+void ColorValidator(char *p_fullcolor){
     223e:	df 93       	push	r29
     2240:	cd b7       	in	r28, 0x3d	; 61
     2242:	de b7       	in	r29, 0x3e	; 62
@@ -4940,7 +4940,7 @@ void ColorValidater(char *p_fullcolor){
 	char cnt;
 	for (cnt = 0; cnt < 9; cnt += 3)
     2254:	19 82       	std	Y+1, r1	; 0x01
-    2256:	93 c0       	rjmp	.+294    	; 0x237e <ColorValidater+0x142>
+    2256:	93 c0       	rjmp	.+294    	; 0x237e <ColorValidator+0x142>
 	{
 		int colorValue = ValueValidator(p_fullcolor + cnt);
     2258:	89 81       	ldd	r24, Y+1	; 0x01
@@ -4957,8 +4957,8 @@ void ColorValidater(char *p_fullcolor){
     226c:	8a 81       	ldd	r24, Y+2	; 0x02
     226e:	9b 81       	ldd	r25, Y+3	; 0x03
     2270:	99 23       	and	r25, r25
-    2272:	0c f0       	brlt	.+2      	; 0x2276 <ColorValidater+0x3a>
-    2274:	81 c0       	rjmp	.+258    	; 0x2378 <ColorValidater+0x13c>
+    2272:	0c f0       	brlt	.+2      	; 0x2276 <ColorValidator+0x3a>
+    2274:	81 c0       	rjmp	.+258    	; 0x2378 <ColorValidator+0x13c>
 		{
 			lcd_clrscr();
     2276:	0e 94 ac 08 	call	0x1158	; 0x1158 <lcd_clrscr>
@@ -4982,9 +4982,9 @@ void ColorValidater(char *p_fullcolor){
     2296:	42 96       	adiw	r24, 0x12	; 18
     2298:	0e 94 ce 08 	call	0x119c	; 0x119c <lcd_puts>
     229c:	80 e0       	ldi	r24, 0x00	; 0
-    229e:	90 e0       	ldi	r25, 0x00	; 0
-    22a0:	aa e7       	ldi	r26, 0x7A	; 122
-    22a2:	b4 e4       	ldi	r27, 0x44	; 68
+    229e:	90 e4       	ldi	r25, 0x40	; 64
+    22a0:	ac e1       	ldi	r26, 0x1C	; 28
+    22a2:	b5 e4       	ldi	r27, 0x45	; 69
     22a4:	8c 83       	std	Y+4, r24	; 0x04
     22a6:	9d 83       	std	Y+5, r25	; 0x05
     22a8:	ae 83       	std	Y+6, r26	; 0x06
@@ -5021,13 +5021,13 @@ void ColorValidater(char *p_fullcolor){
     22d8:	9b 85       	ldd	r25, Y+11	; 0x0b
     22da:	cc d0       	rcall	.+408    	; 0x2474 <__cmpsf2>
     22dc:	88 23       	and	r24, r24
-    22de:	2c f4       	brge	.+10     	; 0x22ea <ColorValidater+0xae>
+    22de:	2c f4       	brge	.+10     	; 0x22ea <ColorValidator+0xae>
 		__ticks = 1;
     22e0:	81 e0       	ldi	r24, 0x01	; 1
     22e2:	90 e0       	ldi	r25, 0x00	; 0
     22e4:	9d 87       	std	Y+13, r25	; 0x0d
     22e6:	8c 87       	std	Y+12, r24	; 0x0c
-    22e8:	3b c0       	rjmp	.+118    	; 0x2360 <ColorValidater+0x124>
+    22e8:	3b c0       	rjmp	.+118    	; 0x2360 <ColorValidator+0x124>
 	else if (__tmp > 65535)
     22ea:	20 e0       	ldi	r18, 0x00	; 0
     22ec:	3f ef       	ldi	r19, 0xFF	; 255
@@ -5039,7 +5039,7 @@ void ColorValidater(char *p_fullcolor){
     22f8:	9b 85       	ldd	r25, Y+11	; 0x0b
     22fa:	c9 d1       	rcall	.+914    	; 0x268e <__gesf2>
     22fc:	18 16       	cp	r1, r24
-    22fe:	3c f5       	brge	.+78     	; 0x234e <ColorValidater+0x112>
+    22fe:	3c f5       	brge	.+78     	; 0x234e <ColorValidator+0x112>
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
@@ -5061,7 +5061,7 @@ void ColorValidater(char *p_fullcolor){
     231e:	cb 01       	movw	r24, r22
     2320:	9d 87       	std	Y+13, r25	; 0x0d
     2322:	8c 87       	std	Y+12, r24	; 0x0c
-    2324:	0f c0       	rjmp	.+30     	; 0x2344 <ColorValidater+0x108>
+    2324:	0f c0       	rjmp	.+30     	; 0x2344 <ColorValidator+0x108>
     2326:	80 e9       	ldi	r24, 0x90	; 144
     2328:	91 e0       	ldi	r25, 0x01	; 1
     232a:	9f 87       	std	Y+15, r25	; 0x0f
@@ -5069,7 +5069,7 @@ void ColorValidater(char *p_fullcolor){
     232e:	8e 85       	ldd	r24, Y+14	; 0x0e
     2330:	9f 85       	ldd	r25, Y+15	; 0x0f
     2332:	01 97       	sbiw	r24, 0x01	; 1
-    2334:	f1 f7       	brne	.-4      	; 0x2332 <ColorValidater+0xf6>
+    2334:	f1 f7       	brne	.-4      	; 0x2332 <ColorValidator+0xf6>
     2336:	9f 87       	std	Y+15, r25	; 0x0f
     2338:	8e 87       	std	Y+14, r24	; 0x0e
 		while(__ticks)
@@ -5091,16 +5091,16 @@ void ColorValidater(char *p_fullcolor){
     2344:	8c 85       	ldd	r24, Y+12	; 0x0c
     2346:	9d 85       	ldd	r25, Y+13	; 0x0d
     2348:	89 2b       	or	r24, r25
-			_delay_ms(1000);
+			_delay_ms(2500);
 			break;
-    234a:	69 f7       	brne	.-38     	; 0x2326 <ColorValidater+0xea>
+    234a:	69 f7       	brne	.-38     	; 0x2326 <ColorValidator+0xea>
 			__ticks --;
 		}
 		return;
 	}
 	else
 		__ticks = (uint16_t)__tmp;
-    234c:	1c c0       	rjmp	.+56     	; 0x2386 <ColorValidater+0x14a>
+    234c:	1c c0       	rjmp	.+56     	; 0x2386 <ColorValidator+0x14a>
     234e:	68 85       	ldd	r22, Y+8	; 0x08
     2350:	79 85       	ldd	r23, Y+9	; 0x09
     2352:	8a 85       	ldd	r24, Y+10	; 0x0a
@@ -5117,15 +5117,15 @@ void ColorValidater(char *p_fullcolor){
     2368:	88 89       	ldd	r24, Y+16	; 0x10
     236a:	99 89       	ldd	r25, Y+17	; 0x11
     236c:	01 97       	sbiw	r24, 0x01	; 1
-    236e:	f1 f7       	brne	.-4      	; 0x236c <ColorValidater+0x130>
+    236e:	f1 f7       	brne	.-4      	; 0x236c <ColorValidator+0x130>
     2370:	99 8b       	std	Y+17, r25	; 0x11
     2372:	88 8b       	std	Y+16, r24	; 0x10
     2374:	00 00       	nop
-    2376:	07 c0       	rjmp	.+14     	; 0x2386 <ColorValidater+0x14a>
+    2376:	07 c0       	rjmp	.+14     	; 0x2386 <ColorValidator+0x14a>
 	}
-	ColorValidater(color);
+	ColorValidator(color);
 }
-void ColorValidater(char *p_fullcolor){
+void ColorValidator(char *p_fullcolor){
 	char cnt;
 	for (cnt = 0; cnt < 9; cnt += 3)
     2378:	89 81       	ldd	r24, Y+1	; 0x01
@@ -5133,10 +5133,10 @@ void ColorValidater(char *p_fullcolor){
     237c:	89 83       	std	Y+1, r24	; 0x01
     237e:	89 81       	ldd	r24, Y+1	; 0x01
     2380:	89 30       	cpi	r24, 0x09	; 9
-    2382:	08 f4       	brcc	.+2      	; 0x2386 <ColorValidater+0x14a>
-    2384:	69 cf       	rjmp	.-302    	; 0x2258 <ColorValidater+0x1c>
+    2382:	08 f4       	brcc	.+2      	; 0x2386 <ColorValidator+0x14a>
+    2384:	69 cf       	rjmp	.-302    	; 0x2258 <ColorValidator+0x1c>
 			lcd_puts(errornr);
-			_delay_ms(1000);
+			_delay_ms(2500);
 			break;
 		}
 	}
@@ -5153,6 +5153,7 @@ void ColorValidater(char *p_fullcolor){
     2398:	08 95       	ret
 
 0000239a <ValueValidator>:
+
 int ValueValidator(char *p_color){
     239a:	cf 93       	push	r28
     239c:	df 93       	push	r29
@@ -5196,9 +5197,9 @@ int ValueValidator(char *p_color){
     23dc:	8f ef       	ldi	r24, 0xFF	; 255
     23de:	9f ef       	ldi	r25, 0xFF	; 255
     23e0:	41 c0       	rjmp	.+130    	; 0x2464 <ValueValidator+0xca>
-		}
 	}
 }
+
 int ValueValidator(char *p_color){
 	char cnt;
 	for (cnt = 0; cnt < 3; cnt++)

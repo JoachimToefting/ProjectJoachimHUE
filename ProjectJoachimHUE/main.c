@@ -68,6 +68,7 @@ void ColorInput(void){
 	}
 	ColorValidator(color);
 }
+
 void ColorValidator(char *p_fullcolor){
 	char cnt;
 	for (cnt = 0; cnt < 9; cnt += 3)
@@ -80,11 +81,12 @@ void ColorValidator(char *p_fullcolor){
 			char errornr[9];
 			itoa(colorValue, errornr, 10);
 			lcd_puts(errornr);
-			_delay_ms(1000);
+			_delay_ms(2500);
 			break;
 		}
 	}
 }
+
 int ValueValidator(char *p_color){
 	char cnt;
 	for (cnt = 0; cnt < 3; cnt++)
