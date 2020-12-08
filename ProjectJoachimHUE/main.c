@@ -71,6 +71,7 @@ void ColorInput(void){
 		lcd_putc(color[colorcnt]);
 	}
 	ColorValidator(color);
+	
 }
 
 void ColorValidator(char *p_fullcolor){
@@ -89,6 +90,7 @@ void ColorValidator(char *p_fullcolor){
 			break;
 		}
 	}
+	
 }
 
 int ValueValidator(char *p_color){
@@ -111,5 +113,11 @@ int ValueValidator(char *p_color){
 }
 
 void SendData(char color[9]){
+	char startbyte = 'S';
 	
+	USART_Transmit(startbyte);
+	for (char cnt = 0; cnt < 9; cnt++)
+	{
+		USART_Transmit(color[cnt]);
+	}
 }
