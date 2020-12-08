@@ -70,26 +70,35 @@ void ColorInput(void){
 		}
 		lcd_putc(color[colorcnt]);
 	}
-	ColorValidator(color);
+	
+	int colorState = ColorValidator(color);
+	if (colorState < 0)
+	{
+		lcd_clrscr();
+		lcd_puts("No color set,\nError: ");
+		char errornr[9];
+		itoa(colorState, errornr, 10);
+		lcd_puts(errornr);
+		_delay_ms(2500);
+	}
+	else
+	{
+		SendData(color);
+	}
 	
 }
 
-void ColorValidator(char *p_fullcolor){
+int ColorValidator(char *p_fullcolor){
 	char cnt;
 	for (cnt = 0; cnt < 9; cnt += 3)
 	{
 		int colorValue = ValueValidator(p_fullcolor + cnt);
 		if (colorValue < 0)
 		{
-			lcd_clrscr();
-			lcd_puts("No color set,\nError: ");
-			char errornr[9];
-			itoa(colorValue, errornr, 10);
-			lcd_puts(errornr);
-			_delay_ms(2500);
-			break;
+			return colorValue;
 		}
 	}
+	return 0;
 	
 }
 
@@ -112,7 +121,7 @@ int ValueValidator(char *p_color){
 	return number;
 }
 
-void SendData(char color[9]){
+void SendData(unsigned char color[9]){
 	char startbyte = 'S';
 	
 	USART_Transmit(startbyte);

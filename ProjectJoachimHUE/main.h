@@ -11,8 +11,8 @@
 
 void Init(void);
 void ColorInput(void);
-void ColorValidator(char *p_fullcolor);
+int ColorValidator(char *p_fullcolor);
 int ValueValidator(char *p_color);
-void SendData(void);
+void SendData(unsigned char color[9]);
 
 #endif /* MAIN_H_ */
