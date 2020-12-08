@@ -8,3 +8,5 @@ LCDfolder\lcd.c
 
 main.c
 
+USART\USART.c
+

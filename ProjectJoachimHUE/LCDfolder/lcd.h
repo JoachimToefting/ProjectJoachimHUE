@@ -1,5 +1,5 @@
-#ifndef LCDLIBRARY_H
-#define LCDLIBRARY_H
+#ifndef LCD_H_
+#define LCD_H_
 /*************************************************************************
 Title	:   C include file for the HD44780U LCD library (lcd.c)
 Author:    Peter Fleury <pfleury@gmx.ch>  http://tinyurl.com/peterfleury
@@ -366,4 +366,4 @@ on my home page, which shows example circuits how to connect an LCD to an AVR co
 
 	/**@}*/
 
-	#endif //LCD_H
+	#endif //LCD_H_

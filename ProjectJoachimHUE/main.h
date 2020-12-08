@@ -13,5 +13,6 @@ void Init(void);
 void ColorInput(void);
 void ColorValidator(char *p_fullcolor);
 int ValueValidator(char *p_color);
+void SendData(void);
 
 #endif /* MAIN_H_ */

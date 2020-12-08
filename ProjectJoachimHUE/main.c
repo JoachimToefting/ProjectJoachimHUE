@@ -9,9 +9,11 @@
 #include <stdlib.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "main.h"
 #include "LCDfolder/lcd.h"
 #include "Keypad/keypad.h"
-#include "main.h"
+#include "USART/USART.h"
+
 
 int main(void)
 {
@@ -28,7 +30,7 @@ void Init(void){
 	char *str = "Welcome";
 	lcd_puts(str);
 	Keypad_Init();
-	
+	USART_Init();
 }
 
 void ColorInput(void){
@@ -45,11 +47,13 @@ void ColorInput(void){
 			lcd_gotoxy(13,1);
 			break;
 			case 3:			//Grøn
+			_delay_ms(500);
 			lcd_clrscr();
 			lcd_puts("Color:\nGreen: ");
 			lcd_gotoxy(13,1);
 			break;
 			case 6:			//Blå
+			_delay_ms(500);
 			lcd_clrscr();
 			lcd_puts("Color:\nBlue: ");
 			lcd_gotoxy(13,1);
@@ -106,4 +110,6 @@ int ValueValidator(char *p_color){
 	return number;
 }
 
-
+void SendData(char color[9]){
+	
+}
