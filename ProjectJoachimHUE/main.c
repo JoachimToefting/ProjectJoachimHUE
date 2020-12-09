@@ -14,6 +14,7 @@
 #include "Keypad/keypad.h"
 #include "USART/USART.h"
 
+unsigned char color[9] ;//= {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
 
 int main(void)
 {
@@ -34,10 +35,15 @@ void Init(void){
 }
 
 void ColorInput(void){
-	char colorcnt;
-	unsigned char color[9] = {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
+	//char colorcnt;
+
+	//reset color
+	for (char cnt = 0; cnt < 9; cnt++)
+	{
+		color[cnt] = '.';
+	}
 	
-	for (colorcnt = 0; colorcnt < 9; colorcnt++)
+	for (char colorcnt = 0; colorcnt < 9; colorcnt++)
 	{
 		switch (colorcnt)
 		{
@@ -62,30 +68,41 @@ void ColorInput(void){
 			lcd_gotoxy(13+(colorcnt % 3),1);
 			break;
 		}
-		while (color[colorcnt] == '.' ) //Keypad input
-		{
-			_delay_ms(100);
-			ColumnScan();
-			color[colorcnt] = ReadRows();
-		}
+		Input(colorcnt);
 		lcd_putc(color[colorcnt]);
 	}
 	
+	ValidateAndSend();
+}
+
+void Input(char colorcnt){
+	while (color[colorcnt] == '.' )
+	{
+		_delay_ms(100);
+		ColumnScan();
+		color[colorcnt] = ReadRows();
+	}
+}
+
+void ValidateAndSend(void){
 	int colorState = ColorValidator(color);
 	if (colorState < 0)
 	{
-		lcd_clrscr();
-		lcd_puts("No color set,\nError: ");
-		char errornr[9];
-		itoa(colorState, errornr, 10);
-		lcd_puts(errornr);
-		_delay_ms(2500);
+		ErrorPrint(colorState);
 	}
 	else
 	{
 		SendData(color);
 	}
-	
+}
+
+void ErrorPrint(int colorState){
+	lcd_clrscr();
+	lcd_puts("No color set,\nError: ");
+	char errornr[9];
+	itoa(colorState, errornr, 10);
+	lcd_puts(errornr);
+	_delay_ms(2500);
 }
 
 int ColorValidator(char *p_fullcolor){
