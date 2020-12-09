@@ -14,7 +14,7 @@
 #include "Keypad/keypad.h"
 #include "USART/USART.h"
 
-unsigned char color[9] ;//= {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
+unsigned char color[9] ;		// indexing red 0-2, green 3-5, blue 6-8
 
 int main(void)
 {
@@ -47,18 +47,18 @@ void ColorInput(void){
 	{
 		switch (colorcnt)
 		{
-			case 0:			//Rød
+			case 0:			//Red
 			lcd_clrscr();
 			lcd_puts("Color:\nRed: ");
 			lcd_gotoxy(13,1);
 			break;
-			case 3:			//Grøn
+			case 3:			//Green
 			_delay_ms(500);
 			lcd_clrscr();
 			lcd_puts("Color:\nGreen: ");
 			lcd_gotoxy(13,1);
 			break;
-			case 6:			//Blå
+			case 6:			//Blue
 			_delay_ms(500);
 			lcd_clrscr();
 			lcd_puts("Color:\nBlue: ");
@@ -71,7 +71,6 @@ void ColorInput(void){
 		Input(colorcnt);
 		lcd_putc(color[colorcnt]);
 	}
-	
 	ValidateAndSend();
 }
 
