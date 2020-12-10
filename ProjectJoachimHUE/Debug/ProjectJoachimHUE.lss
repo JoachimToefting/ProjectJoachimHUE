@@ -4551,7 +4551,7 @@ _delay_loop_1(uint8_t __count)
 00002042 <main>:
 #include "USART/USART.h"
 
-unsigned char color[9] ;//= {'.','.','.','.','.','.','.','.','.'}; // indexing red 0-2, green 3-5, blue 6-8 (alle char er '.' for at gensætte værdierne)
+unsigned char color[9] ;		// indexing red 0-2, green 3-5, blue 6-8
 
 int main(void)
 {
@@ -4616,8 +4616,6 @@ void ColorInput(void){
     208e:	de bf       	out	0x3e, r29	; 62
     2090:	0f be       	out	0x3f, r0	; 63
     2092:	cd bf       	out	0x3d, r28	; 61
-	//char colorcnt;
-
 	//reset color
 	for (char cnt = 0; cnt < 9; cnt++)
     2094:	19 82       	std	Y+1, r1	; 0x01
@@ -4632,10 +4630,10 @@ void ColorInput(void){
     20a2:	2e e2       	ldi	r18, 0x2E	; 46
     20a4:	fc 01       	movw	r30, r24
     20a6:	20 83       	st	Z, r18
+	USART_Init();
+}
 
 void ColorInput(void){
-	//char colorcnt;
-
 	//reset color
 	for (char cnt = 0; cnt < 9; cnt++)
     20a8:	89 81       	ldd	r24, Y+1	; 0x01
@@ -4667,7 +4665,7 @@ void ColorInput(void){
     20ce:	09 f0       	breq	.+2      	; 0x20d2 <ColorInput+0x52>
     20d0:	f6 c0       	rjmp	.+492    	; 0x22be <__stack+0xbf>
 		{
-			case 0:			//Rød
+			case 0:			//Red
 			lcd_clrscr();
     20d2:	4a d8       	rcall	.-3948   	; 0x1168 <lcd_clrscr>
 			lcd_puts("Color:\nRed: ");
@@ -4697,7 +4695,7 @@ void ColorInput(void){
     20f2:	20 e0       	ldi	r18, 0x00	; 0
     20f4:	30 e0       	ldi	r19, 0x00	; 0
     20f6:	4a e7       	ldi	r20, 0x7A	; 122
-    20f8:	55 e4       	ldi	r21, 0x45	; 69
+    20f8:	53 e4       	ldi	r21, 0x43	; 67
     20fa:	6f 81       	ldd	r22, Y+7	; 0x07
     20fc:	78 85       	ldd	r23, Y+8	; 0x08
     20fe:	89 85       	ldd	r24, Y+9	; 0x09
@@ -4761,8 +4759,8 @@ void ColorInput(void){
     2166:	98 8b       	std	Y+16, r25	; 0x10
     2168:	8f 87       	std	Y+15, r24	; 0x0f
     216a:	0f c0       	rjmp	.+30     	; 0x218a <ColorInput+0x10a>
-    216c:	80 e9       	ldi	r24, 0x90	; 144
-    216e:	91 e0       	ldi	r25, 0x01	; 1
+    216c:	89 e1       	ldi	r24, 0x19	; 25
+    216e:	90 e0       	ldi	r25, 0x00	; 0
     2170:	9a 8b       	std	Y+18, r25	; 0x12
     2172:	89 8b       	std	Y+17, r24	; 0x11
     milliseconds can be achieved.
@@ -4823,7 +4821,7 @@ _delay_loop_2(uint16_t __count)
     21b4:	f1 f7       	brne	.-4      	; 0x21b2 <ColorInput+0x132>
     21b6:	9c 8b       	std	Y+20, r25	; 0x14
     21b8:	8b 8b       	std	Y+19, r24	; 0x13
-			case 3:			//Grøn
+			case 3:			//Green
 			_delay_ms(500);
 			lcd_clrscr();
     21ba:	0e 94 b4 08 	call	0x1168	; 0x1168 <lcd_clrscr>
@@ -4854,7 +4852,7 @@ _delay_loop_2(uint16_t __count)
     21e0:	20 e0       	ldi	r18, 0x00	; 0
     21e2:	30 e0       	ldi	r19, 0x00	; 0
     21e4:	4a e7       	ldi	r20, 0x7A	; 122
-    21e6:	55 e4       	ldi	r21, 0x45	; 69
+    21e6:	53 e4       	ldi	r21, 0x43	; 67
     21e8:	6b 81       	ldd	r22, Y+3	; 0x03
     21ea:	7c 81       	ldd	r23, Y+4	; 0x04
     21ec:	8d 81       	ldd	r24, Y+5	; 0x05
@@ -4918,8 +4916,8 @@ _delay_loop_2(uint16_t __count)
     2254:	9a 8f       	std	Y+26, r25	; 0x1a
     2256:	89 8f       	std	Y+25, r24	; 0x19
     2258:	0f c0       	rjmp	.+30     	; 0x2278 <__stack+0x79>
-    225a:	80 e9       	ldi	r24, 0x90	; 144
-    225c:	91 e0       	ldi	r25, 0x01	; 1
+    225a:	89 e1       	ldi	r24, 0x19	; 25
+    225c:	90 e0       	ldi	r25, 0x00	; 0
     225e:	9c 8f       	std	Y+28, r25	; 0x1c
     2260:	8b 8f       	std	Y+27, r24	; 0x1b
     2262:	8b 8d       	ldd	r24, Y+27	; 0x1b
@@ -4974,7 +4972,7 @@ _delay_loop_2(uint16_t __count)
     22a2:	f1 f7       	brne	.-4      	; 0x22a0 <__stack+0xa1>
     22a4:	9e 8f       	std	Y+30, r25	; 0x1e
     22a6:	8d 8f       	std	Y+29, r24	; 0x1d
-			case 6:			//Blå
+			case 6:			//Blue
 			_delay_ms(500);
 			lcd_clrscr();
     22a8:	0e 94 b4 08 	call	0x1168	; 0x1168 <lcd_clrscr>
@@ -5035,11 +5033,11 @@ _delay_loop_2(uint16_t __count)
     2302:	8a 81       	ldd	r24, Y+2	; 0x02
     2304:	89 30       	cpi	r24, 0x09	; 9
     2306:	08 f4       	brcc	.+2      	; 0x230a <__stack+0x10b>
+			break;
 		}
 		Input(colorcnt);
 		lcd_putc(color[colorcnt]);
 	}
-	
 	ValidateAndSend();
     2308:	d7 ce       	rjmp	.-594    	; 0x20b8 <ColorInput+0x38>
     230a:	a7 d0       	rcall	.+334    	; 0x245a <ValidateAndSend>
@@ -5090,7 +5088,7 @@ void Input(char colorcnt){
     234c:	20 e0       	ldi	r18, 0x00	; 0
     234e:	30 e0       	ldi	r19, 0x00	; 0
     2350:	4a e7       	ldi	r20, 0x7A	; 122
-    2352:	55 e4       	ldi	r21, 0x45	; 69
+    2352:	53 e4       	ldi	r21, 0x43	; 67
     2354:	69 81       	ldd	r22, Y+1	; 0x01
     2356:	7a 81       	ldd	r23, Y+2	; 0x02
     2358:	8b 81       	ldd	r24, Y+3	; 0x03
@@ -5154,8 +5152,8 @@ void Input(char colorcnt){
     23c0:	9a 87       	std	Y+10, r25	; 0x0a
     23c2:	89 87       	std	Y+9, r24	; 0x09
     23c4:	0f c0       	rjmp	.+30     	; 0x23e4 <Input+0xc4>
-    23c6:	80 e9       	ldi	r24, 0x90	; 144
-    23c8:	91 e0       	ldi	r25, 0x01	; 1
+    23c6:	89 e1       	ldi	r24, 0x19	; 25
+    23c8:	90 e0       	ldi	r25, 0x00	; 0
     23ca:	9c 87       	std	Y+12, r25	; 0x0c
     23cc:	8b 87       	std	Y+11, r24	; 0x0b
     23ce:	8b 85       	ldd	r24, Y+11	; 0x0b
@@ -5225,7 +5223,7 @@ void Input(char colorcnt){
     2428:	9d 4f       	sbci	r25, 0xFD	; 253
     242a:	fc 01       	movw	r30, r24
     242c:	20 83       	st	Z, r18
-	
+	}
 	ValidateAndSend();
 }
 
@@ -5363,7 +5361,7 @@ void ErrorPrint(int colorState){
     24e0:	20 e0       	ldi	r18, 0x00	; 0
     24e2:	30 e0       	ldi	r19, 0x00	; 0
     24e4:	4a e7       	ldi	r20, 0x7A	; 122
-    24e6:	55 e4       	ldi	r21, 0x45	; 69
+    24e6:	53 e4       	ldi	r21, 0x43	; 67
     24e8:	69 81       	ldd	r22, Y+1	; 0x01
     24ea:	7a 81       	ldd	r23, Y+2	; 0x02
     24ec:	8b 81       	ldd	r24, Y+3	; 0x03
@@ -5427,8 +5425,8 @@ void ErrorPrint(int colorState){
     2554:	9a 87       	std	Y+10, r25	; 0x0a
     2556:	89 87       	std	Y+9, r24	; 0x09
     2558:	0f c0       	rjmp	.+30     	; 0x2578 <ErrorPrint+0xe6>
-    255a:	80 e9       	ldi	r24, 0x90	; 144
-    255c:	91 e0       	ldi	r25, 0x01	; 1
+    255a:	89 e1       	ldi	r24, 0x19	; 25
+    255c:	90 e0       	ldi	r25, 0x00	; 0
     255e:	9c 87       	std	Y+12, r25	; 0x0c
     2560:	8b 87       	std	Y+11, r24	; 0x0b
     2562:	8b 85       	ldd	r24, Y+11	; 0x0b
@@ -5761,9 +5759,9 @@ void SendData(unsigned char color[9]){
     2738:	08 95       	ret
 
 0000273a <USART_Transmit>:
-	//while (	!(UCSR0A & (1<<RXC0)));			// Wait for data to be received (22.10.2 s. 219)
-	//return UDR0;							// Get and return received data from buffer
-//}
+#include "USART.h"
+#include <avr/io.h>
+#include <util/setbaud.h>
 
 void USART_Transmit(unsigned char data)
 {
@@ -5830,7 +5828,6 @@ void USART_Init()
     2798:	26 e0       	ldi	r18, 0x06	; 6
     279a:	fc 01       	movw	r30, r24
     279c:	20 83       	st	Z, r18
-}
     279e:	00 00       	nop
     27a0:	df 91       	pop	r29
     27a2:	cf 91       	pop	r28

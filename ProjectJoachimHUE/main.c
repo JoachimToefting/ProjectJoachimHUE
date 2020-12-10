@@ -4,7 +4,6 @@
 * Created: 03/12/2020 13.03.11
 * Author : Joachim
 */
-#define F_CPU 16000000UL
 #include <avr/io.h>
 #include <stdlib.h>
 #include <util/delay.h>
@@ -35,8 +34,6 @@ void Init(void){
 }
 
 void ColorInput(void){
-	//char colorcnt;
-
 	//reset color
 	for (char cnt = 0; cnt < 9; cnt++)
 	{

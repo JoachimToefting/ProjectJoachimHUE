@@ -64,6 +64,30 @@ En tegning
 | 7      |  A14  |  PK6  |
 | 8      |  A15  |  PK7  |
 
+## Kodens Opbygning
+### Master
+---
+ProjectJoachimHue er beregnet til at kører på MEGA2560.
+
+![Master HIPO](resources/images/HIPO.png)
+
+Programmet er opsat med en Init funktion der skal sørge for at lcd, keypad og USART er opsat korrekt med den rigtige konfiguration.
+
+ColorInput er hovede elementet i dette program men der kan udvides med en menu hvor en af mulighederne er ColorInput. Her ses et Flowchart af ColorInput:
+![ColorInput FlowChart](resources/images/ColorInput.png)
+
+### Slave
+---
+ProjectJoachimHueSlave er beregnet til at kører på Arduino UNO.
+
+![Slave HIPO](resources/images/HIPOslave.png)
+
+Programmet er opsat med en Init funktion  der skal sørge for at RGB LED og USART er sat rigtig op.
+
+Hvis man gerne vil udvide hvad dette board kan kan det tilføjes til ReceiveData switchcase der switcher på hvad der bliver modtaget, se mere i serial forbindelse for mere information om forbindelsen mellem de to board.
+
+### Seriel forbindelse
+Forbindelsen er designet med et forbogstav og derefter en bestemt mængde bytes f.eks ```S``` som bliver brugt til at signalere et lysskifte og derefter 9 bytes. Hvis man ønsker at udvide projektet kan man tilføje sin egen funktioner og resevere en char mere.
 
 ## Sådan bruges interfacet:
 ---
