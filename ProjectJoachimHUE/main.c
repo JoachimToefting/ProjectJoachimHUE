@@ -4,6 +4,9 @@
 * Created: 03/12/2020 13.03.11
 * Author : Joachim
 */
+#define F_CPU 16000000UL
+#define SWITCH_PRESSED bit_is_clear(PINB, PB6)
+
 #include <avr/io.h>
 #include <stdlib.h>
 #include <util/delay.h>
@@ -13,7 +16,35 @@
 #include "Keypad/keypad.h"
 #include "USART/USART.h"
 
-unsigned char color[9] ;		// indexing red 0-2, green 3-5, blue 6-8
+unsigned char color[9];		// indexing red 0-2, green 3-5, blue 6-8
+unsigned char menucnt;
+
+unsigned char prdecolorcnt;
+unsigned char prdecolor[8][9] = {
+	{'0','0','0','0','0','0','0','0','0'}
+	,{'2','5','5','0','0','0','0','0','0'}
+	,{'0','0','0','2','5','5','0','0','0'}
+	,{'0','0','0','0','0','0','2','5','5'}
+	,{'2','5','5','0','0','0','0','6','9'}
+	,{'1','2','7','0','0','0','2','5','5'}
+	,{'1','0','0','2','5','5','0','0','0'}
+	,{'2','5','5','2','5','5','2','5','5'}
+};
+
+ISR(PCINT0_vect){
+	if (SWITCH_PRESSED)
+	{
+		SendData(prdecolor[prdecolorcnt]);
+		if (prdecolorcnt < 8-1) // 8 is the number of rows in predecolor
+		{
+			prdecolorcnt++;
+		}
+		else
+		{
+			prdecolorcnt = 0;
+		}
+	}
+}
 
 int main(void)
 {
@@ -21,16 +52,74 @@ int main(void)
 	
 	while (1)
 	{
-		ColorInput();
+		//ColorInput();
+		Menu();
 	}
 }
 
 void Init(void){
 	lcd_init(LCD_DISP_ON_CURSOR_BLINK);
-	char *str = "Welcome";
+	char *str = "Initializing...";
 	lcd_puts(str);
 	Keypad_Init();
 	USART_Init();
+	prdecolorcnt = 0;
+	//initailize button
+	DDRB &= ~(1<<PB6);		// InputPort
+	PORTB |= (1<<PB6);		// Pullup resistor
+	PCICR |= (1<<PCIE0);		// Interupt on group 0
+	PCMSK0 |= (1<<PCINT6);		// Masking for PCINT6
+	sei();
+}
+
+unsigned char menupoints[4][25] = {{"Welcome to JoachimHue\n"},{"A: Custom color\n"},{"B: Color choice\n"},{"C: Nothing\n"}};
+unsigned char menucnt = 0;
+
+void Menu(void){
+	
+	unsigned char input = '.';
+	PrintMenu(menucnt,menupoints);
+	
+	while (input == '.')
+	{
+		_delay_ms(70);
+		ColumnScan();
+		input = ReadRows();
+	}
+	switch (input)
+	{
+		case '#':
+		if (menucnt < 2)
+		{
+			menucnt++;
+		}
+		break;
+		
+		case '*':
+		if (menucnt > 0)
+		{
+			menucnt--;
+		}
+		break;
+		
+		case 'A':
+		ColorInput();
+		break;
+		
+		case 'B':
+		//nothing
+		break;
+		
+		default:
+		break;
+	}
+}
+
+void PrintMenu(char menucnt)
+{
+	lcd_clrscr();
+	lcd_puts(menupoints[menucnt]);
+	lcd_puts(menupoints[menucnt+1]);
 }
 
 void ColorInput(void){
@@ -65,13 +154,13 @@ void ColorInput(void){
 			lcd_gotoxy(13+(colorcnt % 3),1);
 			break;
 		}
-		Input(colorcnt);
+		InputColor(colorcnt);
 		lcd_putc(color[colorcnt]);
 	}
 	ValidateAndSend();
 }
 
-void Input(char colorcnt){
+void InputColor(char colorcnt){
 	while (color[colorcnt] == '.' )
 	{
 		_delay_ms(100);

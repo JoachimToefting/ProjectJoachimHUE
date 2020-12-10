@@ -9,8 +9,6 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#define F_CPU 16000000UL
-
 void Init(void);
 void ColorInput(void);
 int ColorValidator(char *p_fullcolor);
