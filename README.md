@@ -10,8 +10,23 @@ Elementer der skal implamenteres:
 - RGB LED der skal outputte lyset med informationen
 
 Ekstra:
-- Kører informationen over seriel til et uno board der så for led'en til at lyse
-- Et menu system til LCD panelet
+- Kører informationen over seriel til et UNO board der så for led'en til at lyse
+- ~~Et menu system til LCD panelet~~
+
+## Opsætning af Projekt
+---
+Der skal bruges:
+- Arduino UNO
+- MEGA2560
+- 1602a lcd arduino
+- 10k potentiometer
+- Membraneswitch module (Keypad)
+- 3x 330 Ω modstande
+- RGB LED
+- Breadboard med nok ledninger
+- Kabler og udstyr til at skrive og strømfører til Arduino UNO og MEGA2560
+
+det software der er inkluderet i dette projekt installeres på MEGA2560. Yderlig skal der bruges [ProjektJoachimHueSlave](https://github.com/JoachimToefting/ProjectJoachimHueSlave) som skal kørers på Arduino UNO. Projektet inkludere en README.md der forklare kun dens opsætning.
 
 ## Opsætning af Hardware
 ---
@@ -58,8 +73,10 @@ Color:
 Red:
 ```
 Her vælges hvor stærk den røde farve skal blive fra 000 til 255 der skal indtastet tre cifre, dette gøres også for blå: ```Blue``` og grøn: ```green```.
+Der skal skrives **3 cifre**.
 
 ## Forstå Errors
+---
 
 Efter indtastning af farver kan der ses:
 ```
@@ -69,3 +86,48 @@ Error: X
 Hvis X er ```-1``` er det fordi en af indtastningerne ikke er et tal.
 
 Hvis X er ```-2``` er det fordi en af indtastningerne ikke er inden for 0 til 255.
+
+---
+
+LCD Cursor'en blinker ikke det rigtige sted:
+
+	Reset MEGA2560
+
+---
+
+Hvis der ikke bliver skiftet farve på led når alle farve værdier er indtastet korrekt kan der laves følgende test:
+### Test af Opsætning
+For at se om man har installeret projektet rigtigt kan der gørers følgende:
+
+Test af seriel tranmission med USB:
+
+- Der skal bruges et USB kabel til MEGA2560
+- Kablet sættes til PC'en og til MEGA2560
+- Åben en terminal på PC'en
+- Og tilslut med Default settings til COM porten der bruges
+- Indtast de tre farvekoder
+
+Test af seriel transmission med Logic analyzer:
+
+- Tilføj logic analyzeres jord til breadboardets jord.
+- Tilføj logic analyzeres data0 til en ledning der går fra TX0 på MEGA2560
+- Tilføj USB mellem logic analyzeren og PC'en
+- Start Logic på PC'en
+- Sample rate 25 MS/s og Duration 20 milliseconds
+- Vælg kun at vise channel 0
+- Skift trigger til Falling egde
+- Start måling og indtast de 3 farver på keypaden
+- Tilføj Protocol Analyzer
+- Async Serial
+- Skift ikke settings og save
+  
+Hvis konfigureret korrekt burde der ses f.eks:
+![Serial Test](resources/images/SerialTest.png)
+
+
+Hvis det er konfigureret korrekt vil der blive vist f.eks ```S255000255``` i terminalen, hvis der er blevet indtastet Rød:255 Grøn:000 Blå:255.
+
+Hvis det ikke blev vist skal der tjekkes følgende:
+
+- TXEN0 bittet i Registreret: UCSR0B er sat til 1 da det er den der er tilsluttet USB seriel interfacet, en logic analyzeren kan bruges hvis man ikke bruger TX0.
+- USART.h er opsat med de korrekte ```#define``` som i orginalt projektet
