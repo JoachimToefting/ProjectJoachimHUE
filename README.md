@@ -21,12 +21,12 @@ Der skal bruges:
 - 1602a lcd arduino
 - 10k potentiometer
 - Membraneswitch module (Keypad)
-- 3x 330 Ω modstande
+- 3x 330Ω modstande
 - RGB LED
 - Breadboard med nok ledninger
 - Kabler og udstyr til at skrive og strømfører til Arduino UNO og MEGA2560
 
-det software der er inkluderet i dette projekt installeres på MEGA2560. Yderlig skal der bruges [ProjektJoachimHueSlave](https://github.com/JoachimToefting/ProjectJoachimHueSlave) som skal kørers på Arduino UNO. Projektet inkludere en README.md der forklare kun dens opsætning.
+det software der er inkluderet i dette projekt installeres på MEGA2560. Yderlig skal der bruges [ProjektJoachimHueSlave](https://github.com/JoachimToefting/ProjectJoachimHueSlave) som skal kørers på Arduino UNO. Projektet inkludere en README.md der forklare kun dens opsætning de andre enmer er i denne README.
 
 ## Opsætning af Hardware
 ---
