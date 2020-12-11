@@ -81,6 +81,15 @@ Billede af opsætning:
 
 Porten er indstillet i main.c Init funktion og kører på Pin Change Interrupt Request 0 (PCINT0_vect).
 
+### Forbindelsen mellem boards
+---
+| MEGA  |  UNO  |
+| :---: | :---: |
+|  GND  |  GND  |
+|  TX0  |  RX0  |
+
+TX porten er indstillet i USART.c i hovede projektet.
+
 ## Kodens Opbygning
 ### Master
 ---
