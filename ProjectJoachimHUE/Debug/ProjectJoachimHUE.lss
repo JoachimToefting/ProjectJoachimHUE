@@ -19,7 +19,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 000010a5  00000000  00000000  000053fb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001607  00000000  00000000  000064a0  2**0
+  8 .debug_line   00001608  00000000  00000000  000064a0  2**0
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000518  00000000  00000000  00007aa8  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -4605,7 +4605,7 @@ ISR(PCINT0_vect){
     20bc:	8e 5f       	subi	r24, 0xFE	; 254
     20be:	9d 4f       	sbci	r25, 0xFD	; 253
     20c0:	8f d4       	rcall	.+2334   	; 0x29e0 <SendData>
-		if (prdecolorcnt < 8-1) // 8 is the number of rows in predecolor
+		if (prdecolorcnt < PREDEFINED_COLORS-1)
     20c2:	80 91 08 03 	lds	r24, 0x0308	; 0x800308 <prdecolorcnt>
     20c6:	87 30       	cpi	r24, 0x07	; 7
     20c8:	30 f4       	brcc	.+12     	; 0x20d6 <__vector_9+0x7a>
@@ -4754,7 +4754,7 @@ void Init(void){
 
 00002196 <Menu>:
 
-unsigned char menupoints[4][25] = {{"Welcome to JoachimHue\n"},{"A: Custom color\n"},{"B: Color choice\n"},{"C: Nothing\n"}};
+unsigned char menupoints[MENUPOINTS_COUNT][25] = {{"Welcome to JoachimHue\n"},{"A: Custom color\n"},{"B: Color choice\n"},{"C: Nothing\n"}};
 unsigned char menucnt = 0;
 
 void Menu(void){
@@ -4990,7 +4990,7 @@ void Menu(void){
 	switch (input)
 	{
 		case '#':
-		if (menucnt < 2)
+		if (menucnt < MENUPOINTS_COUNT-2) // 2 is the number of rows displayet
     22ce:	80 91 fe 02 	lds	r24, 0x02FE	; 0x8002fe <__data_end>
     22d2:	82 30       	cpi	r24, 0x02	; 2
     22d4:	a0 f4       	brcc	.+40     	; 0x22fe <__stack+0xff>
@@ -5029,7 +5029,7 @@ void Menu(void){
     22fa:	00 00       	nop
     22fc:	03 c0       	rjmp	.+6      	; 0x2304 <__stack+0x105>
 		case '#':
-		if (menucnt < 2)
+		if (menucnt < MENUPOINTS_COUNT-2) // 2 is the number of rows displayet
 		{
 			menucnt++;
 		}

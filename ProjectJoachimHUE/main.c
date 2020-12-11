@@ -6,6 +6,8 @@
 */
 #define F_CPU 16000000UL
 #define SWITCH_PRESSED bit_is_clear(PINB, PB6)
+#define MENUPOINTS_COUNT 4
+#define PREDEFINED_COLORS 8
 
 #include <avr/io.h>
 #include <stdlib.h>
@@ -20,7 +22,7 @@ unsigned char color[9];		// indexing red 0-2, green 3-5, blue 6-8
 unsigned char menucnt;
 
 unsigned char prdecolorcnt;
-unsigned char prdecolor[8][9] = {
+unsigned char prdecolor[PREDEFINED_COLORS][9] = {
 	{'0','0','0','0','0','0','0','0','0'}
 	,{'2','5','5','0','0','0','0','0','0'}
 	,{'0','0','0','2','5','5','0','0','0'}
@@ -35,7 +37,7 @@ ISR(PCINT0_vect){
 	if (SWITCH_PRESSED)
 	{
 		SendData(prdecolor[prdecolorcnt]);
-		if (prdecolorcnt < 8-1) // 8 is the number of rows in predecolor
+		if (prdecolorcnt < PREDEFINED_COLORS-1)
 		{
 			prdecolorcnt++;
 		}
@@ -72,7 +74,7 @@ void Init(void){
 	sei();
 }
 
-unsigned char menupoints[4][25] = {{"Welcome to JoachimHue\n"},{"A: Custom color\n"},{"B: Color choice\n"},{"C: Nothing\n"}};
+unsigned char menupoints[MENUPOINTS_COUNT][25] = {{"Welcome to JoachimHue\n"},{"A: Custom color\n"},{"B: Color choice\n"},{"C: Nothing\n"}};
 unsigned char menucnt = 0;
 
 void Menu(void){
@@ -89,7 +91,7 @@ void Menu(void){
 	switch (input)
 	{
 		case '#':
-		if (menucnt < 2)
+		if (menucnt < MENUPOINTS_COUNT-2) // 2 is the number of rows displayet
 		{
 			menucnt++;
 		}
